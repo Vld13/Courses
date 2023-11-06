@@ -4,21 +4,24 @@
 
 int main()
 {
-	int n, s_size, write_size, read_size;
+	int choice, s_size, write_size, read_size;
 	char *fname = "list.bin"; 
 
-  enum ACTIONS{ADD,DELETE,SEARCH,VIEW,EXIT};
+  enum ACTIONS{ADD=1,DELETE,SEARCH,VIEW,EXIT};
   struct Person man;
+	struct Person unknown;
+
+	s_size = sizeof(struct Person);
   
 	while(1)
 	{
-    StartMenu();
-		scanf("%d",&n);
+    choice = StartMenu();
 
-		switch(n)
+		switch(choice)
 		{
 			case ADD:
-        write_size = writeFile(fname,&man,s_size);
+        write_size = writeFile(fname,man,s_size);
+				printf("write_size = %d\n",write_size);
         break;
       
 			case DELETE:
@@ -28,7 +31,8 @@ int main()
 				break;
 
 			case VIEW:
-	      read_size = readFile(fname,&man,s_size);
+	      read_size = readFile(fname,man,s_size);
+				printf("read_size = %d\n",read_size);
 				break;
 
 			case EXIT:
@@ -37,15 +41,8 @@ int main()
 			default:
 				puts("Incorrect enter !");
 				break;
-
 		}
 	}
-	//enterData(&man);
-
-  //s_size = sizeof(man);
-  //write_size = writeFile(fname,&man,s_size);
-	//read_size = readFile(fname,&man,s_size);
-
 
 	return 0;
 }

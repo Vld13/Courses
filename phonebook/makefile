@@ -1,1 +1,4 @@
-gcc main.c func.c -o main
+CC=gcc
+
+all:
+	$(CC) main.c func.c -o main
