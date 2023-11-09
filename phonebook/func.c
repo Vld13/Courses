@@ -1,55 +1,109 @@
-//#ifndef __stdio_h_
-//#define __stdio_h_
-//#endif
 #include<stdio.h>
+#include<string.h>
 #include"func.h"
 #ifndef __func_h_
 #define __func_h_
 #endif
 
 
-void StartMenu()
+int startMenu()
 {
-	puts("***Phonebook***");
-	puts("0 - Add pesron.");
-	puts("1 - Delete pesron.");
-	puts("2 - Search pesron.");
-	puts("3 - View all pesrons.");
-	puts("4 - Exit.");
+  int number;
+
+	puts("\n***Phonebook***");
+	puts("1 - Add pesron.");
+	puts("2 - Delete pesron.");
+	puts("3 - Search pesron.");
+	puts("4 - View all pesrons.");
+	puts("5 - Exit.");
+
+	printf("Your choice: ");
+	scanf("%d",&number);
+
+	return number;
 }
 
-int writeFile(const char *fname, struct Person *man, int s_size)
+int writeFile(const char *fname, struct Person man, int s_size)
 {
 	int write_size;
-	FILE *file = fopen(fname, "w+");
+	FILE *file = fopen(fname, "a+");
   
-	enterData(man);
-	write_size = fwrite(&man,s_size,1,file);
+	printf("Name: ");
+	scanf("%10s",man.name);
+	//fgets(man.name,10,stdin);
+	printf("Surname: ");
+	scanf("%15s",man.surname);
+	//fgets(man.surname,15,stdin);
+  printf("Number: ");
+	scanf("%20s",man.number);
+	//fgets(man.number,20,stdin);
+  
+	write_size = fwrite(&man,sizeof(struct Person),1,file);
   
 	fclose(file);
-
 	return write_size;
 }
 
-int readFile(const char *fname, struct Person *man, int s_size)
+int viewAllPersons(const char *fname, struct Person man, int s_size)
 {
 	int read_size;
-  FILE *file = fopen(fname, "r");
-
-	read_size = fread(&man,s_size,1,file);
-  printf("Name = %s\nNumer = %ld\n",man->name, man->number);
+	long n = 1;
   
-
+	FILE *file = fopen(fname,"r");
+	if(!file)
+	{
+		puts("Cant open file!");
+		return 0;
+	}
+  	
+  
+	printf("|---Name---|----Surname----|-------Number-------|\n"); 
+	while(fread(&man,sizeof(struct Person),1,file))
+	{
+    fseek(file,n*sizeof(struct Person),0);
+    n++;
+    printf("|%-10s|%-15s|%-20s|\n",man.name,man.surname,man.number);
+		printf("|----------|---------------|--------------------|\n");
+	}
+  
   fclose(file);
-
-	return read_size;
+	return 0;
 }
 
-void enterData(struct Person *man)
+int searchPerson(const char *fname, struct Person man)
 {
-  printf("Enter name: ");
-	scanf("%10s",man->name);
-  printf("Enter number: ");
-	scanf("%ld",&man->number);
+	char name[10];
+	long n = 1;
+	short s_flag = 0;
+  
+	FILE *file = fopen(fname, "r");
+	if(!file)
+	{
+		puts("Cant open file!");
+		return 0;
+	}
+  
+	printf("Search: ");
+	scanf("%10s",name);
+
+	while(fread(&man,sizeof(struct Person),1,file))
+	{
+    fseek(file,n*sizeof(struct Person),0);
+    n++;
+		if(!strcmp(name, man.name))
+		{  
+			printf("%s %s %s\n",man.name,man.surname,man.number);
+		  s_flag = 1;
+		}
+	}
+
+	if(!s_flag) puts("No person !");
+
+	fclose(file);
+	return 0;
+}
+
+void enterData(struct Person man)
+{
 
 }

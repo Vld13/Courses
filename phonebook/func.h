@@ -1,9 +1,11 @@
 struct Person {
-  long number;
 	char name[10];
+	char surname[15];
+  char number[20];
 };
 
-void StartMenu();
-int writeFile(const char *, struct Person *, int);
-int readFile(const char *, struct Person *, int);
-void enterData(struct Person *);
+int startMenu();
+int writeFile(const char *, struct Person, int);
+int viewAllPersons(const char *, struct Person, int);
+int searchPerson(const char *, struct Person);
+void enterData(struct Person);
