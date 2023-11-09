@@ -9,19 +9,19 @@ int main()
 
   enum ACTIONS{ADD=1,DELETE,SEARCH,VIEW,EXIT};
   struct Person man;
-	struct Person unknown;
 
 	s_size = sizeof(struct Person);
   
 	while(1)
 	{
-    choice = StartMenu();
+    choice = startMenu();
 
 		switch(choice)
 		{
 			case ADD:
+				printf("Adding user...\n");
         write_size = writeFile(fname,man,s_size);
-				printf("write_size = %d\n",write_size);
+				//printf("write_size = %d\n",write_size);
         break;
       
 			case DELETE:
@@ -31,8 +31,8 @@ int main()
 				break;
 
 			case VIEW:
-	      read_size = readFile(fname,man,s_size);
-				printf("read_size = %d\n",read_size);
+	      viewAllPersons(fname,man,s_size);
+				//printf("read_size = %d\n",read_size);
 				break;
 
 			case EXIT:

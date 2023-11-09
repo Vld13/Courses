@@ -1,6 +1,3 @@
-//#ifndef __stdio_h_
-//#define __stdio_h_
-//#endif
 #include<stdio.h>
 #include"func.h"
 #ifndef __func_h_
@@ -8,7 +5,7 @@
 #endif
 
 
-int StartMenu()
+int startMenu()
 {
   int number;
 
@@ -19,6 +16,7 @@ int StartMenu()
 	puts("4 - View all pesrons.");
 	puts("5 - Exit.");
 
+	printf("Your choice: ");
 	scanf("%d",&number);
 
 	return number;
@@ -29,10 +27,15 @@ int writeFile(const char *fname, struct Person man, int s_size)
 	int write_size;
 	FILE *file = fopen(fname, "a+");
   
-	printf("Enter name: ");
-	scanf("%20s",man.name);
-  printf("Enter number: ");
-	scanf("%ld",&man.number);
+	printf("Name: ");
+	scanf("%10s",man.name);
+	//fgets(man.name,10,stdin);
+	printf("Surname: ");
+	scanf("%15s",man.surname);
+	//fgets(man.surname,15,stdin);
+  printf("Number: ");
+	scanf("%20s",man.number);
+	//fgets(man.number,20,stdin);
   
 	write_size = fwrite(&man,sizeof(struct Person),1,file);
   
@@ -40,29 +43,30 @@ int writeFile(const char *fname, struct Person man, int s_size)
 	return write_size;
 }
 
-int readFile(const char *fname, struct Person man, int s_size)
+void viewAllPersons(const char *fname, struct Person man, int s_size)
 {
 	int read_size;
 	long n = 1;
   FILE *file = fopen(fname, "r");
   
+	printf("|---Name---|----Surname----|-------Number-------|\n");
   
-  while(fread(&man,sizeof(struct Person),1,file))
+	while(fread(&man,sizeof(struct Person),1,file))
 	{
     fseek(file,n*sizeof(struct Person),0);
-    printf("Name = %s\nNumer = %ld\n",man.name,man.number);
     n++;
+    printf("|%-10s|%-15s|%-20s|\n",man.name,man.surname,man.number);
+		printf("|----------|---------------|--------------------|\n");
 	}
-
+  
   fclose(file);
-	return read_size;
 }
 
 void enterData(struct Person man)
 {
-  printf("Enter name: ");
-	scanf("%10s",man.name);
-  printf("Enter number: ");
-	scanf("%ld",&man.number);
+  //printf("Enter name: ");
+  //scanf("%10s",man.name);
+  //printf("Enter number: ");
+	//scanf("%ld",&man.number);
 
 }
