@@ -6,5 +6,6 @@ struct Person {
 
 int startMenu();
 int writeFile(const char *, struct Person, int);
-void viewAllPersons(const char *, struct Person, int);
+int viewAllPersons(const char *, struct Person, int);
+int searchPerson(const char *, struct Person);
 void enterData(struct Person);
